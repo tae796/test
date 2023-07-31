@@ -5,6 +5,9 @@ import boto3
 import io
 import json
 import joblib
+from flask import Flask
+app = Flask(__name__)
+
 
 class PlaceRecommandation():
 
@@ -136,7 +139,8 @@ class PlaceRecommandation():
                                     columns = place_theme_score.columns)
         return pred_matrix_place
     
-if __name__ == "__main__":
+@app.route('/')
+def run():
 
     Recomm = PlaceRecommandation()
     
@@ -155,3 +159,6 @@ if __name__ == "__main__":
     # output 출력
     data_df = pd.DataFrame(recommadation.index)
     print(data_df.values)
+    
+    return data_df.values
+    
