@@ -83,10 +83,11 @@ class news_crowling():
 
     def today_news(self, news, news_titles):
         news_day = []
+        news_day_title = []
         for i in range(len(news)):
             string = news[i]
             news_day.append(string[0:10])
-        news_day_title = np.vstack((np.array(news_day), np.array(news_titles)))  # 1행: 날짜/ 2행: 제목
+            news_day_title.append([news_day, news_titles])
 
         today_date = datetime.datetime.today().date()
         news_print = []
@@ -95,8 +96,7 @@ class news_crowling():
                 news_print.append(news_day_title.T[i])  # 1행: 날짜/ 2행: 제목
         return news_print
 
-    #####뉴스크롤링 시작#####
-
+    #####뉴스크롤링 시작###
     def crowling_news(self, section):
         page = 1
         page2 = 2
@@ -175,13 +175,22 @@ class news_crowling():
 
         # 오늘 날짜 뉴스만 골라오기
         news_day = self.today_news(news_dates, news_titles)  # 1행: 날짜/ 2행: 제목
-        # 지역별 뉴스 고르기
-        news_print = self.section_news(section, news_day)  # 각 행: 날짜-제목
 
-        # 추려진 뉴스 출력
-        print("\n[뉴스 제목]")
-        for i in range(len(news_print)):
-            print(news_print[i][1])
+        if len(news_day):
+            print(len(news_day))
+            # 지역별 뉴스 고르기
+            news_print = self.section_news(section, news_day)  # 각 행: 날짜-제목
+        else:
+            return [0]
+
+        if len(news_print):
+            print(len(news_print))
+            # 추려진 뉴스 출력
+            print("\n[뉴스 제목]")
+            for i in range(len(news_print)):
+                print(news_print[i][1])
+        else:
+            return [0]
 
         return np.array(news_print).T[1]  # 1행: 날짜/ 2행: 제목
 
