@@ -174,7 +174,10 @@ class news_crowling():
             news_dates.append(news_titles)
 
         # 오늘 날짜 뉴스만 골라오기
-        news_day = self.today_news(news_dates, news_titles)  # 1행: 날짜/ 2행: 제목
+        # news_day = self.today_news(news_dates, news_titles)  # 1행: 날짜/ 2행: 제목
+
+        # 오늘 날짜 뉴스 고르는거 안하고 최근 뉴스로
+        news_day = news_dates
 
         if len(news_day):
             print(len(news_day))
@@ -331,10 +334,7 @@ class PlaceRecommandation():
 def crowling(user_section):
     crowler = news_crowling()
     data = crowler.crowling_news(user_section)
-    data_df = pd.DataFrame(data)
-    data_js = data_df.values.tolist()
-    data = json.dumps(data, ensure_ascii=False).encode('utf8')
-    print(data)
+    data = json.dumps(list(data), ensure_ascii=False).encode('utf8')
     return data
 
 
@@ -353,7 +353,6 @@ def recomm():
     data_df = pd.DataFrame(recommadation.index)
     data_js = data_df.values.tolist()
     data = json.dumps(data_js)
-    print(data)
     return data
 
 
